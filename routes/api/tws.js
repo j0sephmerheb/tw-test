@@ -10,21 +10,16 @@ var tws = [];
 
 // Get
 Router.get('/', testMiddleware, async (req, res) => {
-    // res.status(200).send('GET Tws');
-
-    try {
-        tws = await Tw.find();
-
-        if (tws && tws.length > 0) {
+    Tw.find()
+        .lean()
+        .exec()
+        .then(tws => {
             res.status(200).json(tws);
-        }
-        else {
-            res.status(404).json({ "message": "Nothing found" });
-        }
-    }
-    catch (err) {
-        res.status(500).json({ error: err })
-    }
+        })
+        .catch(err => {
+            error = err;
+            console.error(error);
+        });
 })
 
 
@@ -32,21 +27,18 @@ Router.get('/', testMiddleware, async (req, res) => {
 Router.get('/:twId', async (req, res) => {
     twId = req.params.twId;
 
-    try {
-        const tw = await Tw.findById(twId);
-
-        if (tw) {
+    Tw.find({
+        _id: twId
+    })
+        .lean()
+        .exec()
+        .then(tw => {
             res.status(200).json(tw);
-        }
-        else {
-            res.status(404).json({ "message": "Message not found" })
-        }
-    }
-    catch (err) {
-        res.status(500).json({ error: err })
-    }
-
-    // res.status(200).json(tw);
+        })
+        .catch(err => {
+            error = err;
+            console.error(error);
+        });
 })
 
 
@@ -79,43 +71,40 @@ Router.delete('/:twId', (req, res) => {
 
     Tw.remove({
         _id: twId
-    }, (err) => {
-        if (err) {
-            res.status(500).json({ error: err })
-        }
-        else {
-            res.status(200).json({ "message": "Message deleted" });
-        }
     })
-
+        .exec()
+        .then(result => {
+            res.status(200).json({ 'message': 'Message deleted' });
+        })
+        .catch(err => {
+            error = err;
+            console.error(error);
+        })
 })
 
 
 // Patch
-/*Router.patch('/:twId', (req, res) => {
+Router.patch('/:twId', (req, res) => {
     twId = req.params.twId;
-    newMsg = req.body.message;
+    message = req.body.message;
 
-    try {
-        const tw = await Tw.findByIdAndUpdate(
-            twId,
-            {
-                message: newMsg
-            },
-            {
-                new: true
+    if (req.body.message && req.body.message != "") {
+        Tw.update({ _id: twId }, {
+            $set: {
+                message: req.body.message,
             }
-        )
-        if (tw) {
-            res.status(200).json(tw);
-        }
-        else {
-            res.status(404).json({ "message": "Message not found" })
-        }
+        })
+            .exec()
+            .then(tw => {
+                res.status(200).json(tw);
+            })
+            .catch(err => {
+                res.status(500).json({ error: err });
+            });
     }
-    catch (err) {
-        res.status(500).json({ error: err })
+    else {
+        res.status(500).json({ error: 'Please fill all fields' });
     }
-})*/
+})
 
 module.exports = Router;

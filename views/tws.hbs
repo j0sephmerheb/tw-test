@@ -1,7 +1,21 @@
-<h1>List of Twitters</h1>
-
-<ul>
-  {{#each tws}}
-    <li>{{{this.message}}}</li>
-  {{/each}}
-</ul>
+<div class="container text-center">
+  <h1>List of Twitters</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Message</th>
+        <th scope="col">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each tws}}
+      <tr>
+        <td>{{{this._id}}}</td>
+        <td>{{{this.message}}}</td>
+        <td>{{{this.createdAt}}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
