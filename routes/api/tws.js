@@ -9,19 +9,44 @@ const testMiddleware = require('../../middelwares/test');
 var tws = [];
 
 // Get
-Router.get('/', testMiddleware, (req, res) => {
+Router.get('/', testMiddleware, async (req, res) => {
     // res.status(200).send('GET Tws');
-    res.status(200).json(tws);
+
+    try {
+        tws = await Tw.find();
+
+        if (tws && tws.length > 0) {
+            res.status(200).json(tws);
+        }
+        else {
+            res.status(404).json({ "message": "Nothing found" });
+        }
+    }
+    catch (err) {
+        res.status(500).json({ error: err })
+    }
 })
 
-Router.get('/:twId', (req, res) => {
+
+// Get by id
+Router.get('/:twId', async (req, res) => {
     twId = req.params.twId;
 
-    tw = tws.filter((tw) => {
-        return tw.id == twId;
-    });
+    try {
+        const tw = await Tw.findById(twId);
 
-    res.status(200).json(tw);
+        if (tw) {
+            res.status(200).json(tw);
+        }
+        else {
+            res.status(404).json({ "message": "Message not found" })
+        }
+    }
+    catch (err) {
+        res.status(500).json({ error: err })
+    }
+
+    // res.status(200).json(tw);
 })
 
 
@@ -52,25 +77,45 @@ Router.post('/', (req, res) => {
 Router.delete('/:twId', (req, res) => {
     twId = req.params.twId;
 
-    tws = tws.filter((tw) => {
-        return tw.id != twId;
+    Tw.remove({
+        _id: twId
+    }, (err) => {
+        if (err) {
+            res.status(500).json({ error: err })
+        }
+        else {
+            res.status(200).json({ "message": "Message deleted" });
+        }
     })
 
-    res.status(200).json(tws);
 })
+
 
 // Patch
-Router.patch('/:twId', (req, res) => {
+/*Router.patch('/:twId', (req, res) => {
     twId = req.params.twId;
-    message = req.body.message;
+    newMsg = req.body.message;
 
-    tws.filter((tw) => {
-        if (tw.id == twId) {
-            tw.message = message
+    try {
+        const tw = await Tw.findByIdAndUpdate(
+            twId,
+            {
+                message: newMsg
+            },
+            {
+                new: true
+            }
+        )
+        if (tw) {
+            res.status(200).json(tw);
         }
-    });
-
-    res.status(200).json(tws);
-})
+        else {
+            res.status(404).json({ "message": "Message not found" })
+        }
+    }
+    catch (err) {
+        res.status(500).json({ error: err })
+    }
+})*/
 
 module.exports = Router;
