@@ -10,16 +10,19 @@ var tws = [];
 
 // Get
 Router.get('/', testMiddleware, async (req, res) => {
-    Tw.find()
-        .lean()
-        .exec()
-        .then(tws => {
+    try {
+        tws = await Tw.find();
+
+        if (tws && tws.length > 0) {
             res.status(200).json(tws);
-        })
-        .catch(err => {
-            error = err;
-            console.error(error);
-        });
+        }
+        else {
+            res.status(404).json({ "message": "Nothing found" });
+        }
+    }
+    catch (err) {
+        res.status(500).json({ error: err })
+    }
 })
 
 
