@@ -8,6 +8,7 @@ const testMiddleware = require('../../middelwares/test');
 
 var tws = [];
 
+// Get
 Router.get('/', testMiddleware, (req, res) => {
     // res.status(200).send('GET Tws');
     res.status(200).json(tws);
@@ -20,13 +21,14 @@ Router.get('/:twId', (req, res) => {
         return tw.id == twId;
     });
 
-    // res.status(200).send('GET Tw Id: ' + twId);
     res.status(200).json(tw);
 })
 
+
+// Post
 Router.post('/', (req, res) => {
     console.log(req.body.message);
-    
+
     if (req.body.message && req.body.message != "") {
         const tw = new Tw({
             _id: new mongoose.Types.ObjectId(),
@@ -38,13 +40,15 @@ Router.post('/', (req, res) => {
                 res.status(200).send(tw);
             })
             .catch(err => {
-                res.status(500).json({error: err});    
+                res.status(500).json({ error: err });
             })
     } else {
-        res.status(500).json({error: "Please put some values"});    
+        res.status(500).json({ error: "Please put some values" });
     }
 })
 
+
+// Delete
 Router.delete('/:twId', (req, res) => {
     twId = req.params.twId;
 
@@ -55,6 +59,7 @@ Router.delete('/:twId', (req, res) => {
     res.status(200).json(tws);
 })
 
+// Patch
 Router.patch('/:twId', (req, res) => {
     twId = req.params.twId;
     message = req.body.message;
