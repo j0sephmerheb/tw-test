@@ -1,32 +1,26 @@
 <div class="container-md py-4">
   <form method="POST" action="/">
     <textarea class="form-control mb-2" rows="3" name="message" placeholder="Message"></textarea>
-    <button type="submit" class="btn btn-primary px-3 float-right" >Submit</button>
+    <button type="submit" class="btn btn-primary px-3 float-right">Submit</button>
     <div class="clearfix"></div>
   </form>
   <hr>
 
   <h4 class='mb-3 text-center'>List of Tweets</h4>
-  <table class="table text-center">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Message</th>
-        <th scope="col">Date</th>
-        <th scope="col">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each tws}}
-      <tr key={{{this.key}}}>
-        <td>{{{this._id}}}</td>
-        <td>{{{this.message}}}</td>
-        <td>{{{this.createdAt}}}</td>
-        <td>
-          <button class="btn btn-sm btn-danger">Delete</button>
-        </td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
+
+  <div class="form-row grid-striped">
+    {{#each tws}}
+    <div class='col col-md-4 col-sm-6 mb-2'>
+      <div class="card">
+        <div class="card-body">
+          <strong><small>{{{this.createdAt}}}</small></strong>          
+          <div class="card-text">{{{this.message}}}</div>
+          <hr class="my-2">
+          <small class="text-muted">{{{this._id}}}</small>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+
 </div>
