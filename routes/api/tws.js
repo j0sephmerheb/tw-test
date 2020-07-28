@@ -110,4 +110,13 @@ Router.patch('/:twId', (req, res) => {
     }
 })
 
+
+// add comment
+Router.post('/', (req, res) => {
+    console.log(req.body);
+    res.redirect('/tws');
+})
+
+
+
 module.exports = Router;
