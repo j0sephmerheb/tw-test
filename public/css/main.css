@@ -1,6 +1,6 @@
 .container-md{
     max-width: 768px;
 }
-.grid-striped .col:nth-of-type(odd) .card {
+.grid-striped > div:nth-of-type(odd) .card {
     background-color: rgba(0,0,0,.05);
 }

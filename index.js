@@ -26,6 +26,8 @@ app.engine('.hbs', exphbs({
 app.set('view engine', '.hbs');
 
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, '/node_modules/bootstrap/dist')))
+
 
 app.use('/tws', twsRouter);
 app.use('/api/tws', twsApiRouter);

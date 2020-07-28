@@ -1,22 +1,23 @@
 <div class="container-md py-4">
-  <form method="POST" action="/">
+  <div class="p-4 bg-secondary mb-4">
+  <p class="text-white">Add a new tweet: </p>
+  <form method="POST" action="/api/tws">
     <textarea class="form-control mb-2" rows="3" name="message" placeholder="Message"></textarea>
     <button type="submit" class="btn btn-primary px-3 float-right">Submit</button>
     <div class="clearfix"></div>
   </form>
-  <hr>
+  </div>
 
   <h4 class='mb-3 text-center'>List of Tweets</h4>
 
   <div class="form-row grid-striped">
     {{#each tws}}
-    <div class='col col-md-4 col-sm-6 mb-2'>
+    <div class='col-md-4 col-sm-6 mb-2' id={{{this._id}}}>
       <div class="card">
         <div class="card-body">
-          <strong><small>{{{this.createdAt}}}</small></strong>          
           <div class="card-text">{{{this.message}}}</div>
           <hr class="my-2">
-          <small class="text-muted">{{{this._id}}}</small>
+          <small class="text-muted">{{{this.createdAt}}}</small>
         </div>
       </div>
     </div>

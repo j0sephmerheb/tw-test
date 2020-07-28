@@ -46,7 +46,7 @@ Router.get('/:twId', async (req, res) => {
 
 
 // Post
-Router.post('/', (req, res) => {
+/* Router.post('/', (req, res) => {
     console.log(req.body.message);
 
     if (req.body.message && req.body.message != "") {
@@ -66,7 +66,7 @@ Router.post('/', (req, res) => {
         res.status(500).json({ error: "Please put some values" });
     }
 })
-
+*/
 
 // Delete
 Router.delete('/:twId', (req, res) => {
@@ -113,8 +113,22 @@ Router.patch('/:twId', (req, res) => {
 
 // add comment
 Router.post('/', (req, res) => {
-    console.log(req.body);
-    res.redirect('/tws');
+    if (req.body.message && req.body.message != "") {
+        const tw = new Tw({
+            _id: new mongoose.Types.ObjectId(),
+            message: req.body.message
+        })
+
+        tw.save()
+            .then(tw => {
+                res.redirect('/tws');
+            })
+            .catch(err => {
+                res.status(500).json({ error: err });
+            })
+    } else {
+        res.status(500).json({ error: "Please put some values" });
+    }
 })
 
 
