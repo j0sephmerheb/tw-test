@@ -1,6 +1,22 @@
-.grid-striped > div:nth-of-type(odd) .card {
-    background-color: rgba(0,0,0,.05);
+
+h1.title {
+    display: block;
+    border-bottom: 3px dashed #C1C1C1;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 2rem;
 }
-.grid-striped .card{
-    min-height: 100%;
+
+.alert {
+    width: 100%;
+}
+
+.tools {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px;
+    visibility: hidden;
 }
