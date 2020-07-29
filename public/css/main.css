@@ -1,6 +1,6 @@
-.container-md{
-    max-width: 768px;
-}
 .grid-striped > div:nth-of-type(odd) .card {
     background-color: rgba(0,0,0,.05);
+}
+.grid-striped .card{
+    min-height: 100%;
 }

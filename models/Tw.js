@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const moment = require('moment');
 
 const TwSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
@@ -8,8 +7,8 @@ const TwSchema = new mongoose.Schema({
         required: true
     },
     createdAt: {
-        type: String,
-        default: moment().format('MMMM Do YYYY, h:mm:ss a')
+        type: Date,
+        default: Date.now
     }
 });
 

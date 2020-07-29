@@ -5,7 +5,7 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const exphbs = require('express-handlebars');
-const mongoose = require('mongoose');
+const moment = require('moment');
 
 const twsRouter = require('./routes/web/tws');
 const twsApiRouter = require('./routes/api/tws');
@@ -21,13 +21,25 @@ app.use(bodyParser.json());
 
 app.engine('.hbs', exphbs({
     extname: '.hbs',
-    defaultLayout: 'main'
+    defaultLayout: 'main',
+    helpers: {
+        formatDate: function (date, format) {
+            return moment(date, "YYYYMMDD").fromNow();
+        },
+        isEmpty: (value) => {
+            return value === '';
+        },
+        isNotEmpty: (value) => {
+            return value !== '';
+        }
+    }
 }));
 app.set('view engine', '.hbs');
 
-app.use(express.static(path.join(__dirname, 'public')))
-app.use(express.static(path.join(__dirname, '/node_modules/bootstrap/dist')))
-
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname + '/node_modules/jquery/dist'));
+app.use(express.static(path.join(__dirname, '/node_modules/bootstrap/dist/')));
+app.use(express.static(path.join(__dirname, '/node_modules/@fortawesome/fontawesome-free/')));
 
 app.use('/tws', twsRouter);
 app.use('/api/tws', twsApiRouter);

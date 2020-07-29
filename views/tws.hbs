@@ -1,11 +1,21 @@
-<div class="container-md py-4">
+<div class="container py-4">
+
+  {{#if (isNotEmpty msg)}}
+  <div class="alert alert-{{{msg.type}}} alert-dismissible fade show" role="alert">
+    {{{msg.msg}}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {{/if}}
+
   <div class="p-4 bg-secondary mb-4">
-  <p class="text-white">Add a new tweet: </p>
-  <form method="POST" action="/api/tws">
-    <textarea class="form-control mb-2" rows="3" name="message" placeholder="Message"></textarea>
-    <button type="submit" class="btn btn-primary px-3 float-right">Submit</button>
-    <div class="clearfix"></div>
-  </form>
+    <p class="text-white">Add a new tweet: </p>
+    <form method="post" action="/tws">
+      <textarea class="form-control mb-2" rows="3" name="message" placeholder="Message"></textarea>
+      <button type="submit" class="btn btn-sm btn-primary px-3 float-right">Submit</button>
+      <div class="clearfix"></div>
+    </form>
   </div>
 
   <h4 class='mb-3 text-center'>List of Tweets</h4>
@@ -16,8 +26,15 @@
       <div class="card">
         <div class="card-body">
           <div class="card-text">{{{this.message}}}</div>
-          <hr class="my-2">
-          <small class="text-muted">{{{this.createdAt}}}</small>
+          <small class="text-muted">{{{ formatDate this.createdAt }}}</small>
+          <div class="border-top pt-3 mt-3">
+            <a href="/tws/delete/{{this._id}}" class="btn btn-danger btn-sm">
+              <i class="fas fa-trash-alt"></i>
+            </a>
+            <a href="#" class="btn btn-sm btn-primary">
+              <i class="fa fa-pen"></i>
+            </a>
+          </div>
         </div>
       </div>
     </div>
